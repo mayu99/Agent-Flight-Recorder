@@ -22,7 +22,7 @@ first non-done, non-blocked milestone. Update at the end of every iteration.
 | 5 | INTERCEPTORS — model.ts, tools.ts, context.ts, record() | blocked | No .env: needs TRUEFOUNDRY_API_KEY + AFR_DEMO_MODEL + COMPOSIO_API_KEY. User messaged 2026-06-12 with exact ask. Code may be written ahead; verification (toy agent → real rows) waits on keys. |
 | 6 | DEMO AGENT — record-mode E2E, real reproducible failure | blocked | Same keys as #5. |
 | 7 | REPLAY ENGINE — replayer.ts, divergence.ts, test:replay | done | `npm run test:replay` 5/5: toy run recorded via real SDK→ingest→CH pipeline replays byte-identical (seq/type/name/input_hash/output); tampered input flags input_hash_mismatch at exact seq; type/name/exhaustion divergences; whitespace-canonical no-false-diverge. Re-verify vs live demo agent at #14. events.ts wrap marker made lossless (`__afr_wrapped__`). |
-| 8 | FORK MODE — fork.ts, fix-and-verify flow | todo | |
+| 8 | FORK MODE — fork.ts, fix-and-verify flow | done | fork.test.ts 3/3 via real pipeline: broken toy run (error tool_call) forked at failing seq with fixed input → green; fork is new run_id with mode=fork + parent_run_id; replayed prefix preserves hashes; source trace verified unchanged; pre-fork divergence throws. Demo-agent re-verify at #14. |
 | 9 | DIFF ENGINE — diff.ts, alignment + classification | todo | |
 | 10 | DASHBOARD — run list, API routes, diff view (shadcn) | todo | |
 | 11 | TIMELINE — OpenUI generative replay timeline | todo | |

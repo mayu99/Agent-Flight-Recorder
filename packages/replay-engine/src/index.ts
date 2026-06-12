@@ -5,3 +5,5 @@ export { DivergenceError, Replayer } from "./replayer.js";
 export type { ReplayRequest, ReplayResult, ReplayerOptions } from "./replayer.js";
 export { loadRunEvents, makeClient } from "./loader.js";
 export type { LoaderOptions } from "./loader.js";
+export { ForkSession } from "./fork.js";
+export type { ForkSessionOptions, LiveExecutor, LiveResult } from "./fork.js";
