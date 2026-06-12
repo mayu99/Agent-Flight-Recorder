@@ -25,11 +25,11 @@ first non-done, non-blocked milestone. Update at the end of every iteration.
 | 8 | FORK MODE — fork.ts, fix-and-verify flow | done | fork.test.ts 3/3 via real pipeline: broken toy run (error tool_call) forked at failing seq with fixed input → green; fork is new run_id with mode=fork + parent_run_id; replayed prefix preserves hashes; source trace verified unchanged; pre-fork divergence throws. Demo-agent re-verify at #14. |
 | 9 | DIFF ENGINE — diff.ts, alignment + classification | done | diff.test.ts 7/7: broken-vs-fixed reports changed-input at exactly the fixed step (seq 2); LCS alignment survives inserted steps without cascade; changed-output, divergent-path, one-sided trailing, bookkeeping-ignored cases covered. Demo-run re-verify at #14. |
 | 10 | DASHBOARD — run list, API routes, diff view (shadcn) | done | `npm run build` green (Turbopack). Verified against live CH on :3100: run list renders both fork-pair runs w/ status+mode+lineage; run detail shows error step ("bad expression: 2+x"); diff page shows changed-input + first-divergence badge; /api/runs, /api/runs/[id], /api/diff, /api/eval (GET), /api/runs/[id]/replay (deterministic self-replay) all return live data. Module fix: tsconfig → moduleResolution bundler + extensionless imports (Turbopack can't resolve NodeNext .js-style TS imports); all 31 tests still green. |
-| 11 | TIMELINE — OpenUI generative replay timeline | todo | |
-| 12 | AUTO-EVAL — judge.ts, rubrics.ts, verdicts in CH | todo | Needs EVAL_MODEL via gateway |
-| 13 | DOCS + DEMO — ARCHITECTURE.md, DEMO_SCRIPT.md, runbook | todo | |
+| 11 | TIMELINE — OpenUI generative replay timeline | blocked | OpenUI is keyless, but composing the timeline needs a live LLM: TRUEFOUNDRY_API_KEY + AFR_TIMELINE_MODEL. Primitives sub-chunk can be built ahead once keys near. |
+| 12 | AUTO-EVAL — judge.ts, rubrics.ts, verdicts in CH | blocked | Needs TRUEFOUNDRY_API_KEY + EVAL_MODEL via gateway. |
+| 13 | DOCS + DEMO — ARCHITECTURE.md, DEMO_SCRIPT.md, runbook | done | ARCHITECTURE.md (diagram, run modes, decisions, sponsor map), DEMO_SCRIPT.md (3-min beats + contingencies + judge Q&A), demo/README.md (cold-start runbook, reset script, SQL spot checks). Demo-agent timings marked "to verify at M14". |
 | 14 | FINAL REHEARSAL — full killer-demo loop + all checks green | todo | Exit gate |
 
 ## Blockers
 
-- (none yet) — expected soon: `.env` keys for TrueFoundry, Composio, Pioneer (milestones 5+). User will be asked when milestone 5 starts.
+- **Waiting on user** (asked 2026-06-12): `.env` with TRUEFOUNDRY_API_KEY, AFR_DEMO_MODEL/AFR_TIMELINE_MODEL/EVAL_MODEL, COMPOSIO_API_KEY (fresh), optional PIONEER_API_KEY. Blocks #5, #6, #11, #12, and therefore #14. All other milestones are done. Next action when keys land: build interceptors (#5) → demo agent (#6) → OpenUI timeline (#11) → auto-eval (#12) → final rehearsal (#14).
