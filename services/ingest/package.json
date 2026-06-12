@@ -7,5 +7,10 @@
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@afr/recorder-sdk": "^0.1.0",
+    "@clickhouse/client": "^1.20.0",
+    "zod": "^4.4.3"
   }
 }

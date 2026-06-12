@@ -18,8 +18,8 @@ first non-done, non-blocked milestone. Update at the end of every iteration.
 | 1 | SCAFFOLD — workspaces root, docker-compose (ClickHouse), package skeletons | done | `npm install` clean; `afr-clickhouse` healthy (server 26.3.12.3, `SELECT version()` over :8123); `npm run typecheck` green (root tsc + web tsc). No turbo.json by decision. |
 | 2 | SCHEMA — events.ts + clickhouse/schema.sql | done | Schema applied twice (idempotent), tables: events, runs_rollup MV, evals. Sample event built via `events.modelCall()` round-tripped through JSONEachRow incl. JSON subcolumn read. `npx tsc --noEmit` green. zod 4.4.3 in recorder-sdk. |
 | 3 | SDK CORE — hashing.ts, transport.ts + unit tests | done | 16/16 vitest pass (key-order/whitespace/-0 canonicalization, volatile-key exclusion; transport batching, 5xx retry+backoff, 4xx no-retry, close semantics). tsc green. |
-| 4 | INGEST — HTTP batch endpoint, zod, async inserts | in-progress | |
-| 5 | INTERCEPTORS — model.ts, tools.ts, context.ts, record() | todo | Needs TRUEFOUNDRY_API_KEY, COMPOSIO_API_KEY |
+| 4 | INGEST — HTTP batch endpoint, zod, async inserts | done | POST /events (auth, zod, async_insert+wait) → 4-event batch round-tripped identically (scalars exact, JSON payloads deep-equal); bad event → 400 with reason; /healthz pings CH; runs_rollup MV populated through async path. tsc green. |
+| 5 | INTERCEPTORS — model.ts, tools.ts, context.ts, record() | in-progress | Needs TRUEFOUNDRY_API_KEY, COMPOSIO_API_KEY |
 | 6 | DEMO AGENT — record-mode E2E, real reproducible failure | todo | Needs same keys |
 | 7 | REPLAY ENGINE — replayer.ts, divergence.ts, test:replay | todo | |
 | 8 | FORK MODE — fork.ts, fix-and-verify flow | todo | |
