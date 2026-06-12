@@ -16,8 +16,8 @@ first non-done, non-blocked milestone. Update at the end of every iteration.
 | # | Milestone | Status | Evidence / notes |
 |---|---|---|---|
 | 1 | SCAFFOLD — workspaces root, docker-compose (ClickHouse), package skeletons | done | `npm install` clean; `afr-clickhouse` healthy (server 26.3.12.3, `SELECT version()` over :8123); `npm run typecheck` green (root tsc + web tsc). No turbo.json by decision. |
-| 2 | SCHEMA — events.ts + clickhouse/schema.sql | in-progress | |
-| 3 | SDK CORE — hashing.ts, transport.ts + unit tests | todo | |
+| 2 | SCHEMA — events.ts + clickhouse/schema.sql | done | Schema applied twice (idempotent), tables: events, runs_rollup MV, evals. Sample event built via `events.modelCall()` round-tripped through JSONEachRow incl. JSON subcolumn read. `npx tsc --noEmit` green. zod 4.4.3 in recorder-sdk. |
+| 3 | SDK CORE — hashing.ts, transport.ts + unit tests | in-progress | |
 | 4 | INGEST — HTTP batch endpoint, zod, async inserts | todo | |
 | 5 | INTERCEPTORS — model.ts, tools.ts, context.ts, record() | todo | Needs TRUEFOUNDRY_API_KEY, COMPOSIO_API_KEY |
 | 6 | DEMO AGENT — record-mode E2E, real reproducible failure | todo | Needs same keys |
