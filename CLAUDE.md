@@ -22,7 +22,7 @@ If a feature does not make this demo sharper, deprioritize it.
 - **Replay engine** (`packages/replay-engine`): Deterministic replay. Model and tool responses are served from the recorded trace keyed by `(run_id, seq)`; input hashes detect divergence. Fork mode replays up to step N, then goes live.
 - **Diff engine** (`packages/replay-engine/diff`): Aligns two runs step-by-step (by seq + input hash), classifies each step as identical / changed-input / changed-output / divergent-path.
 - **Auto-eval** (`packages/auto-eval`): LLM-as-judge over completed runs — task success, tool-call correctness, efficiency (steps/tokens/cost). Verdicts written back to ClickHouse.
-- **Dashboard** (`apps/web`): Next.js 15 (App Router) + React 19 + Tailwind + shadcn/ui. Run list, replay timeline, diff view, eval reports.
+- **Dashboard** (`apps/web`): Next.js 16 (App Router, Turbopack) + React 19 + Tailwind v4 + shadcn/ui. Run list, replay timeline, diff view, eval reports.
 - **Generative UI replay timeline**: OpenUI renders the replay timeline as generative UI — the LLM composes the timeline visualization from trace data instead of fixed components. **This is the generative-UI prize target; the timeline is the centerpiece screen.**
 - **Tool layer**: Composio — the agent's actions (the things being recorded) execute through Composio tool calls. The SDK interceptor wraps the Composio client.
 - **Inference path**: TrueFoundry LLM gateway (Pioneer as fallback) — all model calls route through the gateway, which gives AFR a single choke point to intercept and a consistent request/response shape to record.
@@ -224,9 +224,8 @@ TRUEFOUNDRY_GATEWAY_URL=
 # Pioneer (fallback inference path)
 PIONEER_API_KEY=
 
-# OpenUI (generative UI timeline)
-OPENUI_API_KEY=
-OPENUI_BASE_URL=
+# OpenUI (generative UI timeline) — no API key: MIT, BYO-LLM via the gateway
+AFR_TIMELINE_MODEL=                      # Model id (via gateway) that composes the timeline
 
 # Auto-eval judge model
 EVAL_MODEL=                              # Model id routed via the gateway
