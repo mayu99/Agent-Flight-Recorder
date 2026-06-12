@@ -23,9 +23,11 @@
     "test:replay": "npm run test:replay -w @afr/replay-engine"
   },
   "devDependencies": {
+    "@types/node": "^25.9.3",
     "concurrently": "^9.1.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.8"
   },
   "engines": {
     "node": ">=20.9"
