@@ -1,0 +1,33 @@
+{
+  "name": "agent-flight-recorder",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Black-box flight recorder for AI agents: record, replay, fork, diff, auto-eval.",
+  "workspaces": [
+    "packages/*",
+    "services/*",
+    "apps/*",
+    "demo"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,ingest \"npm run dev:web\" \"npm run dev:ingest\"",
+    "dev:web": "npm run dev -w @afr/web",
+    "dev:ingest": "npm run dev -w @afr/ingest",
+    "build": "npm run build --workspaces --if-present",
+    "demo": "npm run demo -w @afr/demo",
+    "demo:break": "npm run demo:break -w @afr/demo",
+    "replay": "npm run replay -w @afr/demo --",
+    "typecheck": "tsc --noEmit && npm run typecheck -w @afr/web",
+    "test": "npm run test --workspaces --if-present",
+    "test:sdk": "npm run test -w @afr/recorder-sdk",
+    "test:replay": "npm run test:replay -w @afr/replay-engine"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.9"
+  }
+}

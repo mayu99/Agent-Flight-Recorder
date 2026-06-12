@@ -1,1 +1,18 @@
 .claude/settings.local.json
+
+# deps & builds
+node_modules/
+dist/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# env — never commit secrets
+.env
+.env.*
+!.env.example
+
+# misc
+.DS_Store
+npm-debug.log*

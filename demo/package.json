@@ -1,0 +1,12 @@
+{
+  "name": "@afr/demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo": "tsx agent.ts",
+    "demo:break": "tsx break-it.ts",
+    "replay": "tsx replay-cli.ts",
+    "typecheck": "tsc --noEmit"
+  }
+}
