@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { loadRunEvents } from "@afr/replay-engine";
 import { compactTrace } from "@afr/auto-eval";
-import { gatewayConfigFromEnv, gatewayModelFromEnv } from "@afr/recorder-sdk";
+import { gatewayConfigFromEnv, gatewayHeaders, gatewayModelFromEnv } from "@afr/recorder-sdk";
 import { timelinePrompt } from "@/components/timeline/timeline-prompt";
 
 export const dynamic = "force-dynamic";
@@ -32,10 +32,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ run
 
   const upstream = await fetch(`${gateway.baseUrl}/v1/chat/completions`, {
     method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${gateway.apiKey}`,
-    },
+    headers: gatewayHeaders(gateway),
     body: JSON.stringify({
       model,
       stream: true,

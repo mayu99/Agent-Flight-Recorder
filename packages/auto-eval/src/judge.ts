@@ -1,6 +1,6 @@
 import { createClient, type ClickHouseClient } from "@clickhouse/client";
 import { newId, formatTs, type TraceEvent } from "@afr/recorder-sdk/events";
-import { gatewayConfigFromEnv, gatewayModelFromEnv, type GatewayConfig } from "@afr/recorder-sdk";
+import { gatewayConfigFromEnv, gatewayHeaders, gatewayModelFromEnv, type GatewayConfig } from "@afr/recorder-sdk";
 import { loadRunEvents } from "@afr/replay-engine";
 import { z } from "zod";
 import { RUBRICS, rubricMessages, type RubricId } from "./rubrics";
@@ -43,10 +43,7 @@ export async function judgeRubric(
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     const res = await fetchFn(`${gateway.baseUrl}/v1/chat/completions`, {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${gateway.apiKey}`,
-      },
+      headers: gatewayHeaders(gateway),
       body: JSON.stringify({
         model,
         temperature: 0,

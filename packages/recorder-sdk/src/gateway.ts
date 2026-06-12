@@ -29,6 +29,19 @@ export function gatewayConfigFromEnv(env: Record<string, string | undefined> = p
   return { baseUrl, apiKey };
 }
 
+/**
+ * Standard headers for every gateway call. X-TFY-LOGGING-CONFIG opts the
+ * request into TrueFoundry AI Monitoring (request traces, fallback events,
+ * per-model cost) — complementary to AFR's own client-side recording.
+ */
+export function gatewayHeaders(cfg: GatewayConfig): Record<string, string> {
+  return {
+    "content-type": "application/json",
+    authorization: `Bearer ${cfg.apiKey}`,
+    "X-TFY-LOGGING-CONFIG": '{"enabled": true}',
+  };
+}
+
 /** Model id for a given role, e.g. AFR_DEMO_MODEL / AFR_TIMELINE_MODEL / EVAL_MODEL. */
 export function gatewayModelFromEnv(
   varName: "AFR_DEMO_MODEL" | "AFR_TIMELINE_MODEL" | "EVAL_MODEL",
