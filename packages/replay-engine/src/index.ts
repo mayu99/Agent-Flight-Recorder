@@ -1,3 +1,7 @@
 // @afr/replay-engine — deterministic replay, fork mode, divergence, diff.
-// replayer.ts/divergence.ts land in milestone 7; fork.ts in 8; diff.ts in 9.
-export const REPLAY_ENGINE_VERSION = "0.1.0";
+export { detectDivergence } from "./divergence.js";
+export type { Divergence, DivergenceReason, LiveStep } from "./divergence.js";
+export { DivergenceError, Replayer } from "./replayer.js";
+export type { ReplayRequest, ReplayResult, ReplayerOptions } from "./replayer.js";
+export { loadRunEvents, makeClient } from "./loader.js";
+export type { LoaderOptions } from "./loader.js";

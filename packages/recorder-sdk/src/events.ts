@@ -159,11 +159,25 @@ export const events = {
 
 /**
  * Serialize for ClickHouse JSONEachRow insert. JSON columns take objects as-is;
- * `input`/`output` of non-object type are wrapped so the JSON column always
- * receives an object root.
+ * `input`/`output` of non-object type are wrapped under an unambiguous marker
+ * key so the JSON column always receives an object root AND the read side can
+ * restore the original value exactly (replay must serve outputs losslessly).
  */
+const WRAP_KEY = "__afr_wrapped__";
+
 export function toJSONEachRow(e: TraceEvent): Record<string, unknown> {
   const wrap = (v: unknown) =>
-    v && typeof v === "object" && !Array.isArray(v) ? v : { value: v ?? null };
+    v && typeof v === "object" && !Array.isArray(v) ? v : { [WRAP_KEY]: v ?? null };
   return { ...e, input: wrap(e.input), output: wrap(e.output) };
+}
+
+/** Inverse of the toJSONEachRow payload wrapping, for the read side. */
+export function fromJSONColumn(v: unknown): unknown {
+  if (v && typeof v === "object" && !Array.isArray(v)) {
+    const keys = Object.keys(v);
+    if (keys.length === 1 && keys[0] === WRAP_KEY) {
+      return (v as Record<string, unknown>)[WRAP_KEY];
+    }
+  }
+  return v;
 }
