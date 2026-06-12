@@ -1,5 +1,13 @@
 import { defineComponent } from "@openuidev/react-lang";
-import { z } from "zod";
+import {
+  divergenceMarkerSpec,
+  latencyBarSpec,
+  payloadInspectorSpec,
+  runSummaryHeaderSpec,
+  stackSpec,
+  stepCardSpec,
+  timelineSpec,
+} from "./spec";
 
 const STATUS_STYLES: Record<string, string> = {
   ok: "border-emerald-700/60 bg-emerald-950/40",
@@ -24,11 +32,7 @@ const EVENT_LABELS: Record<string, string> = {
 };
 
 export const Stack = defineComponent({
-  name: "Stack",
-  description: "Vertical layout container. Use as the root: Stack([RunSummaryHeader, Timeline]).",
-  props: z.object({
-    children: z.array(z.unknown()).describe("Components rendered top to bottom"),
-  }),
+  ...stackSpec,
   component: ({ props, renderNode }) => (
     <div data-afr="stack" className="flex flex-col gap-2">
       {(props.children as unknown[]).map((child, i) => (
@@ -39,18 +43,7 @@ export const Stack = defineComponent({
 });
 
 export const RunSummaryHeader = defineComponent({
-  name: "RunSummaryHeader",
-  description:
-    "Header summarizing one agent run: id, status, mode, step count, duration, cost and tokens. Use exactly once, first.",
-  props: z.object({
-    runId: z.string().describe("Full run UUID"),
-    status: z.enum(["ok", "error", "timeout"]).describe("Overall run status"),
-    mode: z.enum(["record", "replay", "fork"]).describe("How the run was produced"),
-    steps: z.number().describe("Total recorded steps"),
-    durationMs: z.number().describe("Wall-clock duration in milliseconds"),
-    costUsd: z.number().describe("Total cost in USD"),
-    tokens: z.number().describe("Total tokens in + out"),
-  }),
+  ...runSummaryHeaderSpec,
   component: ({ props }) => (
     <header
       data-afr="run-summary"
@@ -74,14 +67,7 @@ export const RunSummaryHeader = defineComponent({
 });
 
 export const Timeline = defineComponent({
-  name: "Timeline",
-  description:
-    "Vertical container for the run timeline. Children must be StepCard or DivergenceMarker components in chronological (seq) order.",
-  props: z.object({
-    children: z
-      .array(z.unknown())
-      .describe("StepCard / DivergenceMarker components, ordered by seq ascending"),
-  }),
+  ...timelineSpec,
   component: ({ props, renderNode }) => (
     <ol data-afr="timeline" className="relative ml-3 space-y-3 border-l border-zinc-800 pl-5">
       {(props.children as unknown[]).map((child, i) => (
@@ -92,24 +78,7 @@ export const Timeline = defineComponent({
 });
 
 export const StepCard = defineComponent({
-  name: "StepCard",
-  description:
-    "One trace step (model call, tool call, context injection or decision). Failed steps (status error/timeout) must always include errorMessage and a PayloadInspector child.",
-  props: z.object({
-    seq: z.number().describe("Step index within the run"),
-    title: z.string().describe("Model id or tool slug, e.g. GITHUB_SEARCH or openai-main/gpt-4o"),
-    eventType: z
-      .enum(["run_start", "model_call", "tool_call", "context_injection", "agent_decision", "run_end", "error"])
-      .describe("Kind of trace event"),
-    status: z.enum(["ok", "error", "timeout"]),
-    durationMs: z.number().describe("Step latency in milliseconds"),
-    summary: z.string().describe("One-line human summary of what happened in this step"),
-    errorMessage: z.string().optional().describe("Error text — required when status is not ok"),
-    children: z
-      .array(z.unknown())
-      .optional()
-      .describe("Optional LatencyBar / PayloadInspector components for this step"),
-  }),
+  ...stepCardSpec,
   component: ({ props, renderNode }) => (
     <article
       data-afr="step-card"
@@ -140,13 +109,7 @@ export const StepCard = defineComponent({
 });
 
 export const LatencyBar = defineComponent({
-  name: "LatencyBar",
-  description:
-    "Horizontal bar visualizing one step's latency relative to the slowest step in the run. Use inside StepCard for steps slower than 500ms.",
-  props: z.object({
-    durationMs: z.number().describe("This step's latency"),
-    maxMs: z.number().describe("The slowest step latency in the run (scales the bar)"),
-  }),
+  ...latencyBarSpec,
   component: ({ props }) => {
     const pct = Math.max(2, Math.min(100, Math.round((props.durationMs / Math.max(props.maxMs, 1)) * 100)));
     return (
@@ -164,16 +127,7 @@ export const LatencyBar = defineComponent({
 });
 
 export const PayloadInspector = defineComponent({
-  name: "PayloadInspector",
-  description:
-    "Collapsible inspector showing a step's recorded input or output payload preview. The full payload is fetched from the trace store via the inspect_payload action — never invent payload content.",
-  props: z.object({
-    label: z.string().describe('"input" or "output" plus context, e.g. "input — tool args"'),
-    preview: z.string().describe("Short verbatim excerpt of the recorded payload (from the trace data provided)"),
-    runId: z.string().describe("Run UUID this payload belongs to"),
-    seq: z.number().describe("Step seq this payload belongs to"),
-    expanded: z.boolean().optional().describe("Render expanded — use true for failed steps"),
-  }),
+  ...payloadInspectorSpec,
   component: ({ props }) => (
     <details data-afr="payload-inspector" data-run={props.runId} data-seq={props.seq} open={props.expanded ?? false}>
       <summary className="cursor-pointer text-xs text-zinc-400 hover:text-zinc-200">{props.label}</summary>
@@ -185,16 +139,7 @@ export const PayloadInspector = defineComponent({
 });
 
 export const DivergenceMarker = defineComponent({
-  name: "DivergenceMarker",
-  description:
-    "Marker between steps where a replay/fork diverged from its source run. Place at the exact seq where input hashes stopped matching.",
-  props: z.object({
-    seq: z.number().describe("Step seq where divergence was detected"),
-    kind: z
-      .enum(["input_hash_mismatch", "type_mismatch", "name_mismatch", "trace_exhausted"])
-      .describe("Divergence classification from the replay engine"),
-    detail: z.string().describe("One-line explanation of what changed"),
-  }),
+  ...divergenceMarkerSpec,
   component: ({ props }) => (
     <div
       data-afr="divergence"

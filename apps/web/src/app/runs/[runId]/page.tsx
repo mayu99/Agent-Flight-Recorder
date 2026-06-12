@@ -3,6 +3,7 @@ import { loadRunEvents } from "@afr/replay-engine";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { listEvals } from "@/lib/clickhouse";
+import { GenerativeTimeline } from "@/components/timeline/GenerativeTimeline";
 
 export const dynamic = "force-dynamic";
 
@@ -30,9 +31,7 @@ export default async function RunTimelinePage({
       <div className="mb-6">
         <Link href="/" className="text-sm text-muted-foreground hover:underline">← runs</Link>
         <h1 className="mt-1 font-mono text-lg">{runId}</h1>
-        <p className="text-sm text-muted-foreground">
-          {events.length} steps · conventional timeline (generative timeline at milestone 11)
-        </p>
+        <p className="text-sm text-muted-foreground">{events.length} steps</p>
         {evals.length > 0 && (
           <div className="mt-2 flex gap-2">
             {evals.map((ev) => (
@@ -44,6 +43,16 @@ export default async function RunTimelinePage({
         )}
       </div>
 
+      <section className="mb-8">
+        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          Replay timeline (OpenUI)
+        </h2>
+        <GenerativeTimeline runId={runId} />
+      </section>
+
+      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+        Raw steps
+      </h2>
       <ol className="space-y-3">
         {events.map((e) => (
           <li key={e.span_id}>
