@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { events, type RunContext, type TraceEvent } from "@afr/recorder-sdk/events";
 import { hashInput } from "@afr/recorder-sdk/hashing";
-import { diffRuns } from "./diff.js";
+import { diffRuns } from "./diff";
 
 const ctxA: RunContext = { run_id: "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa" };
 const ctxB: RunContext = { run_id: "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb" };

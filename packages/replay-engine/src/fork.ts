@@ -13,7 +13,7 @@ import {
   type TraceEvent,
 } from "@afr/recorder-sdk/events";
 import { hashInput } from "@afr/recorder-sdk/hashing";
-import { Replayer, type ReplayerOptions, type ReplayRequest } from "./replayer.js";
+import { Replayer, type ReplayerOptions, type ReplayRequest } from "./replayer";
 
 export interface LiveResult {
   output: unknown;

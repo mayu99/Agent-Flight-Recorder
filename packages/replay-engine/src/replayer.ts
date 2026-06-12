@@ -9,7 +9,7 @@ import {
   type TraceEvent,
 } from "@afr/recorder-sdk/events";
 import { hashInput, type CanonicalizeOptions } from "@afr/recorder-sdk/hashing";
-import { detectDivergence, type Divergence } from "./divergence.js";
+import { detectDivergence, type Divergence } from "./divergence";
 
 /** Event types a replayed agent re-requests (everything else is bookkeeping). */
 const REPLAYABLE: ReadonlySet<EventType> = new Set(["model_call", "tool_call"]);

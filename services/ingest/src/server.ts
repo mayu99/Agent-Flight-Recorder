@@ -1,8 +1,8 @@
 // @afr/ingest — stateless HTTP batch endpoint → ClickHouse async inserts.
 import { createServer } from "node:http";
 import { toJSONEachRow } from "@afr/recorder-sdk/events";
-import { insertEvents, pingClickHouse } from "./clickhouse.js";
-import { parseIngestBody } from "./validate.js";
+import { insertEvents, pingClickHouse } from "./clickhouse";
+import { parseIngestBody } from "./validate";
 
 const PORT = Number(process.env.AFR_INGEST_PORT ?? 4000);
 const API_KEY = process.env.AFR_INGEST_API_KEY ?? "";

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { events, type TraceEvent } from "./events.js";
-import { Transport } from "./transport.js";
+import { events, type TraceEvent } from "./events";
+import { Transport } from "./transport";
 
 const ctx = { run_id: "00000000-0000-4000-8000-000000000000" };
 const makeEvent = (seq: number): TraceEvent =>

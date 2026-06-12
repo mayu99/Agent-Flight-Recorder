@@ -5,7 +5,7 @@
  * safe: ClickHouse insert deduplication (default-on, 26.2+) absorbs replays
  * of the same batch.
  */
-import type { TraceEvent } from "./events.js";
+import type { TraceEvent } from "./events";
 
 export interface TransportOptions {
   /** Ingest base URL, e.g. http://localhost:4000 */

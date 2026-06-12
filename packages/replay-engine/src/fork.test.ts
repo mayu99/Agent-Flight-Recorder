@@ -8,8 +8,8 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { events, type RunContext, type TraceEvent } from "@afr/recorder-sdk/events";
 import { hashInput } from "@afr/recorder-sdk/hashing";
 import { Transport } from "@afr/recorder-sdk/transport";
-import { ForkSession } from "./fork.js";
-import { loadRunEvents } from "./loader.js";
+import { ForkSession } from "./fork";
+import { loadRunEvents } from "./loader";
 
 const INGEST_URL = process.env.AFR_INGEST_URL ?? "http://localhost:4000";
 const INGEST_KEY = process.env.AFR_INGEST_API_KEY ?? "dev-secret";

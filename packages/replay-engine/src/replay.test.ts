@@ -15,8 +15,8 @@ import {
 } from "@afr/recorder-sdk/events";
 import { canonicalJson, hashInput } from "@afr/recorder-sdk/hashing";
 import { Transport } from "@afr/recorder-sdk/transport";
-import { loadRunEvents } from "./loader.js";
-import { Replayer } from "./replayer.js";
+import { loadRunEvents } from "./loader";
+import { Replayer } from "./replayer";
 
 const INGEST_URL = process.env.AFR_INGEST_URL ?? "http://localhost:4000";
 const INGEST_KEY = process.env.AFR_INGEST_API_KEY ?? "dev-secret";

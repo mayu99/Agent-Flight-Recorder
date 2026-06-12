@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canonicalJson, hashInput } from "./hashing.js";
+import { canonicalJson, hashInput } from "./hashing";
 
 describe("canonical hashing", () => {
   it("is invariant to object key order at every depth", () => {
