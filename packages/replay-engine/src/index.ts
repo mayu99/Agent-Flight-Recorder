@@ -7,3 +7,5 @@ export { loadRunEvents, makeClient } from "./loader.js";
 export type { LoaderOptions } from "./loader.js";
 export { ForkSession } from "./fork.js";
 export type { ForkSessionOptions, LiveExecutor, LiveResult } from "./fork.js";
+export { diffRuns } from "./diff.js";
+export type { RunDiff, StepDiff, StepDiffKind } from "./diff.js";

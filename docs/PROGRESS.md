@@ -23,7 +23,7 @@ first non-done, non-blocked milestone. Update at the end of every iteration.
 | 6 | DEMO AGENT — record-mode E2E, real reproducible failure | blocked | Same keys as #5. |
 | 7 | REPLAY ENGINE — replayer.ts, divergence.ts, test:replay | done | `npm run test:replay` 5/5: toy run recorded via real SDK→ingest→CH pipeline replays byte-identical (seq/type/name/input_hash/output); tampered input flags input_hash_mismatch at exact seq; type/name/exhaustion divergences; whitespace-canonical no-false-diverge. Re-verify vs live demo agent at #14. events.ts wrap marker made lossless (`__afr_wrapped__`). |
 | 8 | FORK MODE — fork.ts, fix-and-verify flow | done | fork.test.ts 3/3 via real pipeline: broken toy run (error tool_call) forked at failing seq with fixed input → green; fork is new run_id with mode=fork + parent_run_id; replayed prefix preserves hashes; source trace verified unchanged; pre-fork divergence throws. Demo-agent re-verify at #14. |
-| 9 | DIFF ENGINE — diff.ts, alignment + classification | todo | |
+| 9 | DIFF ENGINE — diff.ts, alignment + classification | done | diff.test.ts 7/7: broken-vs-fixed reports changed-input at exactly the fixed step (seq 2); LCS alignment survives inserted steps without cascade; changed-output, divergent-path, one-sided trailing, bookkeeping-ignored cases covered. Demo-run re-verify at #14. |
 | 10 | DASHBOARD — run list, API routes, diff view (shadcn) | todo | |
 | 11 | TIMELINE — OpenUI generative replay timeline | todo | |
 | 12 | AUTO-EVAL — judge.ts, rubrics.ts, verdicts in CH | todo | Needs EVAL_MODEL via gateway |
